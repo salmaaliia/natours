@@ -6,7 +6,9 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon server.js",
-    "start:prod": "set NODE_ENV=production && nodemon server.js"
+    "start::prod": "set NODE_ENV=production&&nodemon server.js",
+    "ndb::debug": "ndb server.js",
+    "debug": "node --inspect-brk server.js"
   },
   "author": "Salma El-Sayed",
   "license": "ISC",
