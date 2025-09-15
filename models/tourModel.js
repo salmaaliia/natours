@@ -122,8 +122,6 @@ tourSchema.pre(/^find/, function (next) {
 
   this.start = Date.now();
   next();
-  4;
-  6;
 });
 
 tourSchema.post(/^find/, function (doc, next) {
