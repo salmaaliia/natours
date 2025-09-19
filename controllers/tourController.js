@@ -2,6 +2,7 @@ const APIFeatures = require('../utils/apiFeatures');
 const Tour = require('./../models/tourModel');
 const AppError = require('./../utils/appError.js');
 const catchAsync = require('./../utils/catchAsync');
+const factory = require('./handlerFactory.js');
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
@@ -14,95 +15,12 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  // Excute the query
-  const features = new APIFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .fieldLimitting()
-    .pagination();
-  // const tours = await query;
-  const tours = await features.query;
+exports.getAllTours = factory.getAll(Tour);
 
-  // Send response
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: { tours },
-  });
-});
-
-exports.getTour = catchAsync(async (req, res, next) => {
-  // we get the id from the route function in tourRoutes, if it was called name we will use name
-  const tour = await Tour.findById(req.params.id);
-  // Tour.findOne({_id: req.params.id});
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    data: { tour },
-  });
-});
-
-exports.createTour = catchAsync(async (req, res, next) => {
-  const newTour = await Tour.create(req.body);
-
-  res.status(201).send({
-    status: 'success',
-    data: {
-      tour: newTour,
-    },
-  });
-});
-
-// request for creating a tour -> the router calls createTour -> createTour calls catchAsync which will return this -> (req, res, next) => { fn(req, res, next).catch((err) => next(err));};
-// this will be ->
-// (req, res, next) => { (async (req, res, next) => {
-// const newTour = await Tour.create(req.body);
-//   res.status(201).send({
-//     status: 'success',
-//     data: {
-//       tour: newTour,
-//     },
-//   });
-// }).catch((err) => next(err));};
-// it is like if the router calls the above function as a call back function
-
-exports.updateTour = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  const tour = await Tour.findByIdAndUpdate(id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour,
-    },
-  });
-});
-
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  const tour = await Tour.findByIdAndDelete(id);
-  // 204: no content
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
-});
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
+exports.createTour = factory.createOne(Tour);
+exports.updateTour = factory.updateOne(Tour);
+exports.deleteTour = factory.deleteOne(Tour);
 
 // aggregate pipeline
 exports.getTourStaus = catchAsync(async (req, res, next) => {
@@ -183,3 +101,77 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// '/tours-within/:distance/center/:latlng/unit/:unit'
+// /tours-within/233/center/-40,45/unit/mi
+exports.getToursWithin = catchAsync(async (req, res, next) => {
+  const { distance, latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+
+  if (!lat || !lng) {
+    next(new AppError('Please provide lat and lng in the format lat,lng'));
+  }
+
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+
+  res.status(200).json({
+    sataus: 'success',
+    results: tours.length,
+    data: {
+      data: tours,
+    },
+  });
+});
+
+exports.getDistances = catchAsync(async (req, res, next) => {
+  const { latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+
+  const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
+
+  if (!lat || !lng) {
+    next(new AppError('Please provide lat and lng in the format lat,lng'));
+  }
+
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [+lng, +lat],
+        },
+        distanceField: 'distance',
+        distanceMultiplier: multiplier,
+      },
+    },
+    {
+      $project: {
+        distance: 1,
+        name: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    sataus: 'success',
+    data: {
+      data: distances,
+    },
+  });
+});
+
+// request for creating a tour -> the router calls createTour -> createTour calls catchAsync which will return this -> (req, res, next) => { fn(req, res, next).catch((err) => next(err));};
+// this will be ->
+// (req, res, next) => { (async (req, res, next) => {
+// const newTour = await Tour.create(req.body);
+//   res.status(201).send({
+//     status: 'success',
+//     data: {
+//       tour: newTour,
+//     },
+//   });
+// }).catch((err) => next(err));};
+// it is like if the router calls the above function as a call back function

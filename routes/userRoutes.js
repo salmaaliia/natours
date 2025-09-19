@@ -1,28 +1,31 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const autController = require('../controllers/authController');
+const authController = require('../controllers/authController');
+const reviewController = require('../controllers/reviewController');
 // create router
 const router = express.Router();
 
 // Define routes
 
-router.post('/signup', autController.signup);
-router.post('/login', autController.login);
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 
-router.post('/forgotPassword', autController.forgotPassword);
-router.patch('/resetPassword/:token', autController.resetPassword);
-router.patch(
-  '/updatePassword',
-  autController.protect,
-  autController.updatePassword,
-);
-// router.patch('/updateMe', autController.protect, userController.updateMe);
-// router.delete('/deleteMe', autController.protect, userController.deleteME);
+router.post('/forgotPassword', authController.forgotPassword);
+router.patch('/resetPassword/:token', authController.resetPassword);
 
-router.patch('/me', autController.protect, userController.updateMe);
-router.delete('/me', autController.protect, userController.deleteME);
+router.use(authController.protect);
 
-// For admain
+router.patch('/updatePassword', authController.updatePassword);
+
+router
+  .route('/me')
+  .patch(userController.updateMe)
+  .delete(userController.deleteME)
+  .get(userController.getME, userController.getUser);
+
+// For admin
+router.use(authController.restrectTO('admin'));
+
 router
   .route('/')
   .get(userController.getAllUsers)
