@@ -35,6 +35,7 @@ export const logout = async () => {
           location.assign('/');
         }, 500);
       } else location.reload(true);
+      //   location.reload(true);
     }
   } catch (err) {
     console.log(err);
