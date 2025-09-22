@@ -70,6 +70,16 @@ exports.login = catchAsync(async (req, res, next) => {
   // const token = signToken(user._id);
 });
 
+exports.logout = (req, res) => {
+  res.clearCookie('jwt');
+  // res.cookie('jwt', '', {
+  //   expires: new Date(Date.now() + 1 * 1000),
+  //   httpOnly: true,
+  // });
+
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Get token and check if it's there
   let token;
@@ -107,6 +117,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 
