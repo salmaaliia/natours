@@ -12867,6 +12867,9 @@ var updateSettings = exports.updateSettings = /*#__PURE__*/function () {
           res = _context.v;
           if (res.data.status === 'success') {
             (0, _alert.showAlert)('success', "".concat(type.toUpperCase(), " updated successfuly!"));
+            window.setTimeout(function () {
+              location.reload();
+            }, 1000);
           }
           _context.n = 3;
           break;
@@ -13097,12 +13100,11 @@ if (signupForm) {
 if (updateUserForm) {
   updateUserForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    (0, _updateSettings.updateSettings)({
-      name: name,
-      email: email
-    }, 'data');
+    var form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    (0, _updateSettings.updateSettings)(form, 'data');
   });
 }
 if (updatePasswordForm) {
@@ -13163,7 +13165,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "7931" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1245" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

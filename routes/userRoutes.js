@@ -1,7 +1,9 @@
 const express = require('express');
+const multer = require('multer');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const reviewController = require('../controllers/reviewController');
+
 // create router
 const router = express.Router();
 
@@ -20,7 +22,11 @@ router.patch('/updatePassword', authController.updatePassword);
 
 router
   .route('/me')
-  .patch(userController.updateMe)
+  .patch(
+    userController.uploadUserPhoto,
+    userController.resizeUserPhoto,
+    userController.updateMe,
+  )
   .delete(userController.deleteME)
   .get(userController.getME, userController.getUser);
 
