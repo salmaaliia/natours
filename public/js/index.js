@@ -1,4 +1,7 @@
-import '@babel/polyfill';
+// import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { displayMap } from './leaflet';
