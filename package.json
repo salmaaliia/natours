@@ -10,7 +10,7 @@
     "ndb::debug": "ndb server.js",
     "debug": "node --inspect-brk server.js",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url /js",
-    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Salma El-Sayed",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "braintree": "^3.33.1",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
