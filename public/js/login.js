@@ -30,11 +30,14 @@ export const logout = async () => {
       url: 'http://127.0.0.1:3000/api/v1/users/logout',
     });
     if (res.data.status === 'success') {
-      if (window.location.pathname === '/me') {
-        window.setTimeout(() => {
-          location.assign('/');
-        }, 500);
-      } else location.reload(true);
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 500);
+      // if (window.location.pathname === '/me') {
+      //   window.setTimeout(() => {
+      //     location.assign('/');
+      //   }, 500);
+      // } else location.reload(true);
       //   location.reload(true);
     }
   } catch (err) {

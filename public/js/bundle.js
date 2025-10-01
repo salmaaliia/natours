@@ -12775,11 +12775,14 @@ var logout = exports.logout = /*#__PURE__*/function () {
         case 1:
           res = _context2.v;
           if (res.data.status === 'success') {
-            if (window.location.pathname === '/me') {
-              window.setTimeout(function () {
-                location.assign('/');
-              }, 500);
-            } else location.reload(true);
+            window.setTimeout(function () {
+              location.assign('/');
+            }, 500);
+            // if (window.location.pathname === '/me') {
+            //   window.setTimeout(() => {
+            //     location.assign('/');
+            //   }, 500);
+            // } else location.reload(true);
             //   location.reload(true);
           }
           _context2.n = 3;
