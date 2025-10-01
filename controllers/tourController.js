@@ -2,8 +2,8 @@ const APIFeatures = require('../utils/apiFeatures');
 const multer = require('multer');
 const sharp = require('sharp');
 const Tour = require('./../models/tourModel');
-const AppError = require('./../utils/appError.js');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError.js');
 const factory = require('./handlerFactory.js');
 
 const multerStorage = multer.memoryStorage();

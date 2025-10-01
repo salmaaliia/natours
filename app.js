@@ -13,6 +13,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
@@ -34,6 +35,8 @@ const scriptSrcUrls = [
   'https://unpkg.com/',
   'https://tile.openstreetmap.org',
   'https://cdnjs.cloudflare.com',
+  'https://js.stripe.com',
+  'https://checkout.stripe.com',
 ];
 const styleSrcUrls = [
   'https://unpkg.com/',
@@ -48,13 +51,16 @@ const connectSrcUrls = [
   'ws://127.0.0.1:*',
   'http://127.0.0.1:*',
   'http://localhost:*',
+  'https://js.stripe.com',
+  'https://api.stripe.com',
+  'https://checkout.stripe.com',
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: [],
+      defaultSrc: ["'self'"],
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
@@ -62,7 +68,12 @@ app.use(
       objectSrc: [],
       imgSrc: ["'self'", 'blob:', 'data:', 'https:'],
       fontSrc: ["'self'", ...fontSrcUrls],
-      frameSrc: ["'self'", 'https://js.stripe.com', 'https://hooks.stripe.com'],
+      frameSrc: [
+        "'self'",
+        'https://js.stripe.com',
+        'https://checkout.stripe.com',
+        'https://hooks.stripe.com',
+      ],
     },
   }),
 );
@@ -123,6 +134,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 // middleware to handle unhandled routers
 app.all('*', (req, res, next) => {

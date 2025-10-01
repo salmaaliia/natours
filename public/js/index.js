@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { displayMap } from './leaflet';
+import { bookTour } from './stripe';
 
 // DOM elements
 const leafletMap = document.getElementById('map');
@@ -10,6 +11,8 @@ const updatePasswordForm = document.querySelector('.form-user-password');
 const loginForm = document.querySelector('.form--login');
 const signupForm = document.querySelector('.form--signup');
 const logOutBtn = document.querySelector('.nav_el--logout');
+const bookBtn = document.getElementById('book-tour');
+
 // Delegation
 if (leafletMap) {
   const locations = JSON.parse(leafletMap.dataset.locations);
@@ -68,5 +71,13 @@ if (updatePasswordForm) {
     document.getElementById('password-current').value = '';
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
+  });
+}
+
+if (bookBtn) {
+  bookBtn.addEventListener('click', (e) => {
+    e.target.textContent = 'prcessing...';
+    const { tourId } = e.target.dataset;
+    bookTour(tourId);
   });
 }
