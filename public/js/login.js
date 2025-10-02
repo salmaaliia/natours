@@ -53,12 +53,12 @@ export const signup = async (userData) => {
       url: '/api/v1/users/signup',
       data: userData,
     });
-    if (res.data.status === 'success') {
-      showAlert('success', 'Account created and Logged in successfully');
-      window.setTimeout(() => {
-        location.assign('/');
-      }, 500);
-    }
+    // if (res.data.status === 'success') {
+    showAlert('success', 'Account created and Logged in successfully');
+    window.setTimeout(() => {
+      location.assign('/');
+    }, 500);
+    // }
   } catch (err) {
     console.error('SIGNUP ERROR:', err.response ? err.response.data : err);
     showAlert('error', err.response?.data?.message || 'Something went wrong!');

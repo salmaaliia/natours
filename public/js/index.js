@@ -1,6 +1,7 @@
 // import '@babel/polyfill';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import { showAlert } from './alert';
 
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
@@ -84,3 +85,6 @@ if (bookBtn) {
     bookTour(tourId);
   });
 }
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 20);
