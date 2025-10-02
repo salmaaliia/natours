@@ -4,7 +4,7 @@ const User = require('./../models/userModel');
 const Booking = require('./../models/bookingModel');
 const AppError = require('./../utils/appError');
 
-exports.alert = (req, res, next) => {
+exports.alerts = (req, res, next) => {
   const { alert } = req.query;
   if (alert === 'booking')
     res.locals.alert =
@@ -69,7 +69,6 @@ exports.getMyTours = catchAsync(async (req, res) => {
   // 2) find tours with the returned IDs
   const tourIds = bookings.map((el) => el.tour.id);
   const tours = await Tour.find({ _id: { $in: tourIds } });
-
   res.status(200).render('overview', {
     title: 'My tours',
     tours,
