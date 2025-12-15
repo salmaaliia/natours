@@ -1,8 +1,8 @@
-# Natours 🌍
+# Natours 
 
 A feature-rich tour booking application built with Node.js, Express, and MongoDB. Natours allows users to browse exciting tours, make bookings, write reviews, and manage their accounts.
 
-## 📋 Features
+## Features
 
 ### User Features
 - **Tour Browsing**: Browse and explore different tours with detailed information
@@ -26,7 +26,7 @@ A feature-rich tour booking application built with Node.js, Express, and MongoDB
 - **JWT Authentication**: Secure token-based authentication
 - **Password Encryption**: bcrypt for password hashing
 
-## 🚀 Technology Stack
+## Technology Stack
 
 ### Backend
 - **Node.js** - Runtime environment
@@ -38,11 +38,10 @@ A feature-rich tour booking application built with Node.js, Express, and MongoDB
 - **Pug** - Template engine
 - **Parcel** - Module bundler
 - **Axios** - HTTP client
-- **Leaflet/OpenStreetMap** - Interactive maps
+- **Leaflet** - Interactive maps
 
 ### Payment Processing
 - **Stripe** - Payment gateway
-- **Braintree** - Alternative payment processor
 
 ### Email
 - **Nodemailer** - Email sending
@@ -60,7 +59,7 @@ A feature-rich tour booking application built with Node.js, Express, and MongoDB
 - **compression** - Response compression
 - **cors** - CORS handling
 
-## 📦 Installation
+##  Installation
 
 ### Prerequisites
 - Node.js >= 18.17.0
@@ -121,7 +120,7 @@ BRAINTREE_PRIVATE_KEY=your_private_key
 node dev-data/data/import-dev-data.js --import
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Development Mode
 ```bash
@@ -143,7 +142,7 @@ npm run start:prod
 - **Watch JavaScript**: `npm run watch:js`
 - **Build JavaScript**: `npm run build:js`
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 natours/
@@ -196,7 +195,7 @@ natours/
         └── import-dev-data.js
 ```
 
-## 🌐 API Endpoints
+## API Endpoints
 
 ### Tours
 - `GET /api/v1/tours` - Get all tours
@@ -236,7 +235,7 @@ natours/
 - `POST /api/v1/bookings/checkout-session/:tourId` - Create checkout session
 - `POST /webhook-checkout` - Stripe webhook for payment confirmation
 
-## 🔐 User Roles
+## User Roles
 
 The application supports the following user roles:
 - **User** - Regular users who can book tours and write reviews
@@ -244,19 +243,8 @@ The application supports the following user roles:
 - **Lead Guide** - Lead tour guides
 - **Admin** - Full access to all features
 
-## 👨‍💻 Author
 
-**Salma El-Sayed**
-
-## 📄 License
-
-ISC License
-
-## 🤝 Contributing
-
-This is a learning project. Feel free to fork and experiment!
-
-## 📝 Notes
+##  Notes
 
 This project was created as part of learning Node.js, Express, and MongoDB development. It demonstrates best practices in:
 - RESTful API design
@@ -268,6 +256,3 @@ This project was created as part of learning Node.js, Express, and MongoDB devel
 - Email services
 - Database modeling with Mongoose
 
----
-
-**Happy Touring! 🎉**
