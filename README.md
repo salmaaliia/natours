@@ -71,7 +71,7 @@ A feature-rich tour booking application built with Node.js, Express, and MongoDB
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/salmaaliia/natours.git
+git clone https://github.com/yourusername/natours.git
 cd natours
 ```
 
@@ -93,15 +93,15 @@ DATABASE=mongodb+srv://<username>:<password>@cluster.mongodb.net/natours?retryWr
 DATABASE_PASSWORD=your_database_password
 
 # JWT
-JWT_SECRET=your-super-secret-jwt-key-change-this
+JWT_SECRET=your-super-secure-jwt-secret-with-at-least-32-characters-or-use-crypto-random-bytes
 JWT_EXPIRES_IN=90d
 JWT_COOKIE_EXPIRES_IN=90
 
-# Email Configuration
+# Email Configuration (Development - use Mailtrap or similar)
 EMAIL_USERNAME=your_email_username
 EMAIL_PASSWORD=your_email_password
-EMAIL_HOST=smtp.mailtrap.io
-EMAIL_PORT=2525
+EMAIL_HOST=smtp.mailtrap.io  # For development only
+EMAIL_PORT=2525  # Use your production SMTP settings in production
 
 # Brevo (Sendinblue)
 EMAIL_FROM=your-email@example.com
